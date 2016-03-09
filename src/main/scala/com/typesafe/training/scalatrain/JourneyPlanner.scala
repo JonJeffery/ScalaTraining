@@ -33,11 +33,11 @@ class JourneyPlanner(trains: Set[Train]) {
     })
   }
 
-  def calculatePathsBetweenStations(from: Station, to: Station, departureTime: Time): Set[Seq[Hop]] = {
+  def calculatePathsBetweenStations(from: Station, to: Station, departureTime: Time): Set[Trip] = {
 
-    def findHopRecursive (hop: Hop, currentRoute: Seq[Hop], visitedStations: Set[Station]): Set[Seq[Hop]] = {
+    def findHopRecursive (hop: Hop, currentRoute: Seq[Hop], visitedStations: Set[Station]): Set[Trip] = {
       if (hop.to == to)
-        Set(currentRoute :+ hop)
+        Set(Trip(currentRoute :+ hop))
       else
       for {
           newHop <- getHopsDepartingFromStationAtTime(hop.to, hop.arrivalTime).filter(hop => !visitedStations(hop.to))
@@ -51,14 +51,20 @@ class JourneyPlanner(trains: Set[Train]) {
     } yield path
   }
 
-  def sortPathsByTotalTime(paths: Set[Seq[Hop]]): Seq[Seq[Hop]] = {
+  def sortPathsByTotalTime(paths: Set[Trip]): Seq[Trip] = {
     val sorted = for {
-      path <- paths
-      totalTravelTime = path.last.arrivalTime - path.head.departureTime
+      trip <- paths
+    } yield (trip.travelTime, trip)
 
-    } yield (totalTravelTime, path)
+    sorted.toList.sortBy(_._1).map(_._2)
+  }
 
-    sorted.toSeq.sortBy(_._1).map(_._2)
+  def sortPathsByTotalCost(paths: Set[Trip]): Seq[Trip] = {
+    val sorted = for {
+      trip <- paths
+    } yield (trip.cost, trip)
+
+    sorted.toList.sortBy(_._1).map(_._2)
   }
 
 

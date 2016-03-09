@@ -4,7 +4,7 @@ import scala.collection.immutable.Seq
 /**
   * Created by jonj on 2016-03-07.
   */
-case class Train(info: TrainInfo, schedule: Seq[(Time, Station)]) {
+case class Train(info: TrainInfo, schedule: Seq[(Time, Station)], fare: BigDecimal = 0.0) {
   //TODO  Verify that schedule is strictly increasing in time
   require(schedule.size >= 2)
   val stations: Seq[Station] = schedule.map(station => station._2)
@@ -16,12 +16,5 @@ case class Train(info: TrainInfo, schedule: Seq[(Time, Station)]) {
   def timeAt(station: Station): Option[Time] = {
     schedule.find(_._2 == station).map(_._1)
 
-
-    /**
-      * schedule.collectFirst({
-      *   case(time, `station`) => time
-      * })
-      *  is also a valid option here
-      */
   }
 }
