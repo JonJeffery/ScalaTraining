@@ -3,10 +3,10 @@
  */
 
 package com.typesafe.training.scalatrain
+package com.typesafe.training.scalatrain
 
 import TestData._
-import java.lang.{ IllegalArgumentException => IAE }
-import org.scalatest.{ Matchers, WordSpec }
+import org.scalatest.{Matchers, WordSpec}
 
 class JourneyPlannerSpec extends WordSpec with Matchers {
 
@@ -49,6 +49,24 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
       planner.isShortTrip(munich, frankfurt) shouldBe true
       planner.isShortTrip(nuremberg, frankfurt) shouldBe true
       planner.isShortTrip(nuremberg, essen) shouldBe true
+    }
+  }
+
+  "Calling calculateConnections" should {
+    "return a Set of Seq of Hops with 1 hop: M to N on 724" in {
+      planner.calculateConnections(munich, nuremberg, ice724MunichTime) shouldEqual Set(Seq(hop_M_N_724))
+    }
+  }
+
+  "Calling calculateConnections" should {
+    "return a Set of Seq of Hops with 2 hops M to N to F on 724" in {
+      planner.calculateConnections(munich, frankfurt, ice724MunichTime) shouldEqual Set(Seq(hop_M_N_724, hop_N_F_724))
+    }
+  }
+
+  "Calling calculateConnections" should {
+    "return a Set of Seq of Hops with 3 hops M to N to F to C on 724" in {
+      planner.calculateConnections(munich, frankfurt, ice724MunichTime) shouldEqual Set(Seq(hop_M_N_724, hop_N_F_724, hop_F_C_724))
     }
   }
 }
