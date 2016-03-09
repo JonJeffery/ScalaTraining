@@ -54,19 +54,31 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
 
   "Calling calculateConnections" should {
     "return a Set of Seq of Hops with 1 hop: M to N on 724" in {
-      planner.calculateConnections(munich, nuremberg, ice724MunichTime) shouldEqual Set(Seq(hop_M_N_724))
+      planner.calculatePathsBetweenStations(munich, nuremberg, ice724MunichTime) shouldEqual Set(Seq(hop_M_N_724))
     }
   }
 
   "Calling calculateConnections" should {
     "return a Set of Seq of Hops with 2 hops M to N to F on 724" in {
-      planner.calculateConnections(munich, frankfurt, ice724MunichTime) shouldEqual Set(Seq(hop_M_N_724, hop_N_F_724))
+      planner.calculatePathsBetweenStations(munich, frankfurt, ice724MunichTime) shouldEqual Set(Seq(hop_M_N_724, hop_N_F_724))
     }
   }
 
   "Calling calculateConnections" should {
     "return a Set of Seq of Hops with 3 hops M to N to F to C on 724" in {
-      planner.calculateConnections(munich, cologne, ice724MunichTime) shouldEqual Set(Seq(hop_M_N_724 , hop_N_F_724, hop_F_C_724))
+      planner.calculatePathsBetweenStations(munich, cologne, ice724MunichTime) shouldEqual Set(Seq(hop_M_N_724 , hop_N_F_724, hop_F_C_724))
+    }
+  }
+
+  //sortPathsByTotalTime
+
+  "Calling sortPathsByTotalTime" should {
+    "return a Seq of Seq of Hops with 2 hops M to N to F sorted properly" in {
+      val threePaths = planner.calculatePathsBetweenStations(munich, frankfurt, ice726MunichTime)
+      val path1 = Seq(hop_M_N_724, hop_N_F_724)
+      val path2 = Seq(hop_M_N_726, hop_N_F_726)
+      val path3 = Seq(hop_M_N_726, hop_N_F_724)
+      planner.sortPathsByTotalTime(threePaths) shouldEqual Seq(path2, path1, path3)
     }
   }
 }

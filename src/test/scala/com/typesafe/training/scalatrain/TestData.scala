@@ -59,4 +59,7 @@ object TestData {
   val hop_M_N_724 = new Hop(munich, nuremberg, ice724)
   val hop_N_F_724 = new Hop(nuremberg, frankfurt, ice724)
   val hop_F_C_724 = new Hop(frankfurt, cologne, ice724)
+
+  val hop_M_N_726 = new Hop(munich, nuremberg, ice726)
+  val hop_N_F_726 = new Hop(nuremberg, frankfurt, ice726)
 }
