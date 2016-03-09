@@ -60,13 +60,13 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
 
   "Calling calculateConnections" should {
     "return a Set of Seq of Hops with 2 hops M to N to F on 724" in {
-      planner.calculateConnections(munich, frankfurt, ice724MunichTime) shouldEqual Set(Seq(hop_N_F_724, hop_M_N_724))
+      planner.calculateConnections(munich, frankfurt, ice724MunichTime) shouldEqual Set(Seq(hop_M_N_724, hop_N_F_724))
     }
   }
 
   "Calling calculateConnections" should {
     "return a Set of Seq of Hops with 3 hops M to N to F to C on 724" in {
-      planner.calculateConnections(munich, frankfurt, ice724MunichTime) shouldEqual Set(Seq(hop_F_C_724, hop_N_F_724, hop_M_N_724))
+      planner.calculateConnections(munich, cologne, ice724MunichTime) shouldEqual Set(Seq(hop_M_N_724 , hop_N_F_724, hop_F_C_724))
     }
   }
 }

@@ -1,7 +1,7 @@
 package com.typesafe.training.scalatrain
 
 import scala.annotation.tailrec
-import scala.collection.mutable
+import scala.collection.{:+, mutable}
 
 
 /**
@@ -38,22 +38,20 @@ class JourneyPlanner(trains: Set[Train]) {
 
   def calculateConnections(from: Station, to: Station, departureTime: Time): Set[Seq[Hop]] = {
 
-    val hopsFromFrom: Set[Hop] = getHopsDepartingFromStationAtTime(from, departureTime)
-    for {
-      hop <- hopsFromFrom
-      path <- findHopRecursive(hop, Seq() )
-    } yield path
-
-    def findHopRecursive (hop: Hop, currentRoute: Seq[Hop]): Set[Seq[Hop]] = {
+    def findHopRecursive (hop: Hop, currentRoute: Seq[Hop], visitedStations: Set[Station]): Set[Seq[Hop]] = {
       if (hop.to == to)
         Set(currentRoute :+ hop)
       else
-        for {
-          newHop <- getHopsDepartingFromStationAtTime(hop.to, hop.arrivalTime)
-          goodPath <- findHopRecursive(newHop, currentRoute :+ newHop)
+      for {
+          newHop <- getHopsDepartingFromStationAtTime(hop.to, hop.arrivalTime).filter(hop => !visitedStations(hop.to))
+          goodPath <- findHopRecursive(newHop, currentRoute :+ hop, visitedStations + hop.to)
         } yield
           goodPath
     }
+    for {
+      hop <- getHopsDepartingFromStationAtTime(from, departureTime)
+      path <- findHopRecursive(hop, Seq(), Set(hop.from) )
+    } yield path
   }
 
   def getHopsDepartingFromStationAtTime(from: Station, departureTime: Time): Set[Hop] = {
