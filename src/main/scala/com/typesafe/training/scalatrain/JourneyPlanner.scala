@@ -1,6 +1,8 @@
 package com.typesafe.training.scalatrain
 
 import scala.annotation.tailrec
+import scala.collection.mutable
+
 
 /**
   * Created by jonj on 2016-03-07.
@@ -14,7 +16,7 @@ class JourneyPlanner(trains: Set[Train]) {
       (station1, station2) <- train.backToBack
     } yield Hop(station1, station2, train)
 
-    hopSet.groupBy(_.from)
+    hopSet.groupBy(_.from).withDefaultValue(Set())
   }
 
   def trainsAt(station: Station): Set[Train] =
@@ -34,26 +36,27 @@ class JourneyPlanner(trains: Set[Train]) {
     })
   }
 
-//  def calculateConnections (from: Station, to: Station, departureTime: Time): Set[Seq[Hop]] = {
+  def calculateConnections(from: Station, to: Station, departureTime: Time): Set[Seq[Hop]] = {
 
+    val hopsFromFrom: Set[Hop] = getHopsDepartingFromStationAtTime(from, departureTime)
+    for {
+      hop <- hopsFromFrom
+      path <- findHopRecursive(hop, Seq() )
+    } yield path
 
-    //    val hopsFromFrom = hopMap.get(from).get.filter(_.departureTime == departureTime)
-//    for {
-//      hop <- hopsFromFrom
-//      hop.to =
-//
-//    }
+    def findHopRecursive (hop: Hop, currentRoute: Seq[Hop]): Set[Seq[Hop]] = {
+      if (hop.to == to)
+        Set(currentRoute :+ hop)
+      else
+        for {
+          newHop <- getHopsDepartingFromStationAtTime(hop.to, hop.arrivalTime)
+          goodPath <- findHopRecursive(newHop, currentRoute :+ newHop)
+        } yield
+          goodPath
+    }
+  }
 
-    //set of hops leaving "from"
-
-
-//  }
-
-//  def test(from: Station, to: Station, departureTime: Time): Set[Seq[Hop]] = {
-//    @tailrec
-//    def getPossibleTripsRec(start: Station, end: Station, startTime: Time, seenStations: Set[Station], acc: Set[Seq[Hop]]): Unit = {
-//
-//    }
-//  }
-
+  def getHopsDepartingFromStationAtTime(from: Station, departureTime: Time): Set[Hop] = {
+    hopMap(from).filter(_.departureTime >= departureTime)
+  }
 }
