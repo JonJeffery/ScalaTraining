@@ -52,19 +52,11 @@ class JourneyPlanner(trains: Set[Train]) {
   }
 
   def sortPathsByTotalTime(paths: Set[Trip]): Seq[Trip] = {
-    val sorted = for {
-      trip <- paths
-    } yield (trip.travelTime, trip)
-
-    sorted.toList.sortBy(_._1).map(_._2)
+    paths.toList.sortBy(_.travelTime)
   }
 
   def sortPathsByTotalCost(paths: Set[Trip]): Seq[Trip] = {
-    val sorted = for {
-      trip <- paths
-    } yield (trip.cost, trip)
-
-    sorted.toList.sortBy(_._1).map(_._2)
+    paths.toList.sortBy(_.cost)
   }
 
 
