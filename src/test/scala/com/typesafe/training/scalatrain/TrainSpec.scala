@@ -7,6 +7,7 @@ package com.typesafe.training.scalatrain
 import TestData._
 import java.lang.{ IllegalArgumentException => IAE }
 import org.scalatest.{ Matchers, WordSpec }
+import scala.collection.immutable.Seq
 
 class TrainSpec extends WordSpec with Matchers {
 
@@ -30,8 +31,13 @@ class TrainSpec extends WordSpec with Matchers {
 
   "Creating a Train" should {
     "throw an IllegalArgumentException for a schedule with 0 or 1 elements" in {
-      an[IAE] should be thrownBy Train(InterCityExpress(724), Vector())
-      an[IAE] should be thrownBy Train(InterCityExpress(724), Vector(ice724MunichTime -> munich))
+      an[IAE] should be thrownBy Train(InterCityExpress(724), Schedule(Seq(
+        (Seq(), Set(DayOfWeek("WED")))
+      )))
+
+      an[IAE] should be thrownBy Train(InterCityExpress(724), Schedule(Seq(
+        (Seq(ice724MunichItem), Set(DayOfWeek("WED")))
+      )))
     }
   }
 

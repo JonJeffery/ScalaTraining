@@ -78,7 +78,7 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
       val path1 = Trip(Seq(hop_M_N_724, hop_N_F_724))
       val path2 = Trip(Seq(hop_M_N_726, hop_N_F_726))
       val path3 = Trip(Seq(hop_M_N_726, hop_N_F_724))
-      planner.sortPathsByTotalTime(threePaths) shouldEqual List(path2, path1, path3)
+      planner.sortPathsByTotalTime(threePaths) shouldEqual List(path1, path2, path3)
     }
   }
 

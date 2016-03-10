@@ -4,6 +4,8 @@
 
 package com.typesafe.training.scalatrain
 
+import scala.collection.immutable.Seq
+
 object TestData {
 
   val munich = Station("Munich")
@@ -32,25 +34,43 @@ object TestData {
 
   val ice726CologneTime = Time(13, 2)
 
+  val ice724MunichItem = ScheduleItem(ice724MunichTime -> munich)
+  val ice724NurembergItem = ScheduleItem(ice724NurembergTime -> nuremberg)
+  val ice724FrankfurtItem = ScheduleItem(ice724FrankfurtTime -> frankfurt)
+  val ice724CologneItem = ScheduleItem(ice724CologneTime -> cologne)
+  val ice724Schedule: Schedule = Schedule(Seq(
+    (Seq(
+      ice724MunichItem,
+      ice724NurembergItem,
+      ice724FrankfurtItem,
+      ice724CologneItem
+    ),
+      Set(DayOfWeek("MON"), DayOfWeek("TUE"), DayOfWeek("WED"), DayOfWeek("THU")
+      ))))
+
   val ice724 = Train(
     InterCityExpress(724),
-    Vector(
-      ice724MunichTime -> munich,
-      ice724NurembergTime -> nuremberg,
-      ice724FrankfurtTime -> frankfurt,
-      ice724CologneTime -> cologne
-    ),
+    ice724Schedule,
     5.0
   )
 
+  val ice726MunichItem = ScheduleItem(ice726MunichTime -> munich)
+  val ice726NurembergItem = ScheduleItem(ice726NurembergTime -> nuremberg)
+  val ice726FrankfurtItem = ScheduleItem(ice726FrankfurtTime -> frankfurt)
+  val ice726EssenItem = ScheduleItem(ice726CologneTime -> essen)
+
+  val ice726Schedule = Schedule(Seq(
+    (Seq(
+      ice726MunichItem,
+      ice726NurembergItem,
+      ice726FrankfurtItem,
+      ice726EssenItem
+    ),
+      Set(DayOfWeek("WED"), DayOfWeek("FRI"), DayOfWeek("SAT"), DayOfWeek("SUN")))))
+
   val ice726 = Train(
     InterCityExpress(726),
-    Vector(
-      ice726MunichTime -> munich,
-      ice726NurembergTime -> nuremberg,
-      ice726FrankfurtTime -> frankfurt,
-      ice726CologneTime -> essen
-    ),
+    ice726Schedule,
     10.0
   )
 
