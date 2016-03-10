@@ -106,4 +106,23 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
       planner2.getTrainsRunningOn(dateInQuestion) shouldEqual Set(ice724, ice856)
     }
   }
+
+
+  "Calling findTripsBetweenStationsOnDate" should {
+    "return a Set of Seq of Hops with 1 hop: M to N on 724" in {
+      planner.findTripsBetweenStationsOnDate(munich, nuremberg, new LocalDate(2016, 5, 16)) shouldEqual Set(Trip(Seq(hop_M_N_724)))
+    }
+  }
+
+  "Calling findTripsBetweenStationsOnDate" should {
+    "return a Set of Seq of Hops with 2 hops M to N to F on 724" in {
+      planner.findTripsBetweenStationsOnDate(munich, nuremberg, new LocalDate(2016, 5, 18)) shouldEqual Set(Trip(Seq(hop_M_N_724)), Trip(Seq( hop_M_N_726)))
+    }
+  }
+
+  "Calling findTripsBetweenStationsOnDate" should {
+    "return a Set of Seq of Hops with 3 hops M to N to F to C on 724" in {
+      planner.findTripsBetweenStationsOnDate(munich, frankfurt, new LocalDate(2016, 5, 23)) shouldEqual Set(Trip(Seq(hop_M_N_724, hop_N_F_724)))
+    }
+  }
 }

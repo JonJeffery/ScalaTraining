@@ -84,10 +84,10 @@ object TestData {
     10.0
   )
 
-  val ice856MunichItem = ScheduleItem(ice856MunichTime -> munich)
-  val ice856NurembergItem = ScheduleItem(ice856NurembergTime -> nuremberg)
-  val ice856FrankfurtItem = ScheduleItem(ice856FrankfurtTime -> frankfurt)
   val ice856EssenItem = ScheduleItem(ice856CologneTime -> cologne)
+  val ice856NurembergItem = ScheduleItem(ice856NurembergTime -> nuremberg)
+  val ice856MunichItem = ScheduleItem(ice856MunichTime -> munich)
+  val ice856FrankfurtItem = ScheduleItem(ice856FrankfurtTime -> frankfurt)
 
   val ice856Schedule = Schedule(
     Seq((Seq(
@@ -119,4 +119,14 @@ object TestData {
 
   val hop_M_N_726 = new Hop(munich, nuremberg, ice726)
   val hop_N_F_726 = new Hop(nuremberg, frankfurt, ice726)
+
+  val trip1 = Trip(Seq(hop_M_N_724))
+  val trip2 = Trip(Seq(hop_M_N_724, hop_N_F_724))
+
+  val discountTicket1: Ticket = Ticket(trip1, new LocalDate(2016, 5, 16), new LocalDate(2016, 5, 16))
+  val discountTicket2: Ticket = Ticket(trip2, new LocalDate(2016, 5, 16), new LocalDate(2016, 5, 16))
+
+  val samePriceTicket: Ticket = Ticket(trip1, new LocalDate(2016, 5, 16), new LocalDate(2016, 5, 1))
+  val highPriceTicket: Ticket = Ticket(trip2, new LocalDate(2016, 5, 16), new LocalDate(2016, 5, 14))
+
 }

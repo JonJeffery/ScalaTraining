@@ -27,7 +27,7 @@ class JourneyPlanner(trains: Set[Train]) {
       scheduleItem <- train.schedule.scheduleItems if scheduleItem.station == station
     } yield (scheduleItem.time, train)
 
-  def isShortTrip(from:Station, to: Station): Boolean = {
+  def isShortTrip(from: Station, to: Station): Boolean = {
     trains.exists(train => train.stations.dropWhile(_ != from) match {
       case `from` +: `to` +: rest => true
       case `from` +: other +: `to` +: rest => true
@@ -37,19 +37,19 @@ class JourneyPlanner(trains: Set[Train]) {
 
   def calculatePathsBetweenStations(from: Station, to: Station, departureTime: Time): Set[Trip] = {
 
-    def findHopRecursive (hop: Hop, currentRoute: Seq[Hop], visitedStations: Set[Station]): Set[Trip] = {
+    def findHopByTimeRecursive(hop: Hop, currentRoute: Seq[Hop], visitedStations: Set[Station]): Set[Trip] = {
       if (hop.to == to)
         Set(Trip(currentRoute :+ hop))
       else
-      for {
+        for {
           newHop <- getHopsDepartingFromStationAtTime(hop.to, hop.arrivalTime).filter(hop => !visitedStations(hop.to))
-          goodPath <- findHopRecursive(newHop, currentRoute :+ hop, visitedStations + hop.to)
+          goodPath <- findHopByTimeRecursive(newHop, currentRoute :+ hop, visitedStations + hop.to)
         } yield
           goodPath
     }
     for {
       hop <- getHopsDepartingFromStationAtTime(from, departureTime)
-      path <- findHopRecursive(hop, Seq(), Set(hop.from) )
+      path <- findHopByTimeRecursive(hop, Seq(), Set(hop.from))
     } yield path
   }
 
@@ -65,7 +65,31 @@ class JourneyPlanner(trains: Set[Train]) {
     hopMap(from).filter(_.departureTime >= departureTime)
   }
 
+  def getHopsDepartingFromStationOnDate(from: Station, date: LocalDate): Set[Hop] = {
+    hopMap(from).filter(hop => hop.train.schedule.isTrainRunning(date))
+  }
+
   def getTrainsRunningOn(date: LocalDate): Set[Train] = {
     trains.filter(_.schedule.isTrainRunning(date))
   }
+
+  def findTripsBetweenStationsOnDate(from: Station, to: Station, date: LocalDate): Set[Trip] = {
+
+    def findHopByDateRecursive(hop: Hop, currentRoute: Seq[Hop], visitedStations: Set[Station]): Set[Trip] = {
+      if (hop.to == to && hop.train.schedule.isTrainRunning(date))
+        Set(Trip(currentRoute :+ hop))
+      else
+        for {
+          newHop <- getHopsDepartingFromStationOnDate(hop.to, date).filter(hop => !visitedStations(hop.to))
+          goodPath <- findHopByDateRecursive(newHop, currentRoute :+ hop, visitedStations + hop.to)
+        } yield
+          goodPath
+    }
+    for {
+      hop <- getHopsDepartingFromStationOnDate(from, date)
+      path <- findHopByDateRecursive(hop, Seq(), Set(hop.from))
+    } yield path
+  }
+
+
 }
