@@ -15,7 +15,8 @@ case class Schedule(scheduledTimes: Seq[((Seq[ScheduleItem]), Set[DayOfWeek])],
   val scheduleItems: Seq[ScheduleItem] = scheduledTimes.flatMap(_._1)
 
   def isTrainRunning(date: LocalDate): Boolean = {
-      DayOfWeek(date.dayOfWeek.get()) match {
+      val d = DayOfWeek(date.dayOfWeek.get())
+      d match {
         case Some(day) => daysOfWeek(day) && !exceptionDates.contains(date)
         case _ => false
     }

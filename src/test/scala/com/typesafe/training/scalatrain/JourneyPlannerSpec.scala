@@ -6,6 +6,7 @@ package com.typesafe.training.scalatrain
 package com.typesafe.training.scalatrain
 
 import TestData._
+import org.joda.time.LocalDate
 import org.scalatest.{Matchers, WordSpec}
 
 class JourneyPlannerSpec extends WordSpec with Matchers {
@@ -83,7 +84,6 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
   }
 
   //sortPathsByTotalCost
-
   "Calling sortPathsByTotalCost" should {
     "return a Seq of Trips with 2 hops M to N to F sorted properly by cost" in {
       val threePaths = planner.calculatePathsBetweenStations(munich, frankfurt, ice726MunichTime)
@@ -91,6 +91,19 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
       val path2 = Trip(Seq(hop_M_N_726, hop_N_F_726))
       val path3 = Trip(Seq(hop_M_N_726, hop_N_F_724))
       planner.sortPathsByTotalCost(threePaths) shouldEqual List(path1, path3, path2)
+    }
+  }
+
+  //getTrainsRunningOn
+  "Calling getTrainsRunningOn" should {
+    "return a subset of trains that run on a certain date" in {
+      val dateInQuestion = new LocalDate(2016, 5, 16)
+      planner2.getTrainsRunningOn(dateInQuestion) shouldEqual Set(ice724)
+    }
+
+    "return a subset of trains that run on a certain date, version 2" in {
+      val dateInQuestion = new LocalDate(2017, 5, 16)
+      planner2.getTrainsRunningOn(dateInQuestion) shouldEqual Set(ice724, ice856)
     }
   }
 }

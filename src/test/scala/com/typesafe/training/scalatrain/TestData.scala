@@ -4,6 +4,8 @@
 
 package com.typesafe.training.scalatrain
 
+import org.joda.time.LocalDate
+
 import scala.collection.immutable.Seq
 
 object TestData {
@@ -33,6 +35,14 @@ object TestData {
   val ice726FrankfurtTime = Time(11, 10)
 
   val ice726CologneTime = Time(13, 2)
+
+  val ice856MunichTime = Time(5, 0)
+
+  val ice856NurembergTime = Time(7)
+
+  val ice856FrankfurtTime = Time(9, 40)
+
+  val ice856CologneTime = Time(11, 15)
 
   val ice724MunichItem = ScheduleItem(ice724MunichTime -> munich)
   val ice724NurembergItem = ScheduleItem(ice724NurembergTime -> nuremberg)
@@ -74,7 +84,32 @@ object TestData {
     10.0
   )
 
+  val ice856MunichItem = ScheduleItem(ice856MunichTime -> munich)
+  val ice856NurembergItem = ScheduleItem(ice856NurembergTime -> nuremberg)
+  val ice856FrankfurtItem = ScheduleItem(ice856FrankfurtTime -> frankfurt)
+  val ice856EssenItem = ScheduleItem(ice856CologneTime -> cologne)
+
+  val ice856Schedule = Schedule(
+    Seq((Seq(
+      ice856EssenItem,
+      ice856NurembergItem,
+      ice856MunichItem,
+      ice856FrankfurtItem
+      ),
+      Set(DayOfWeek("MON").get, DayOfWeek("TUE").get, DayOfWeek("WED").get, DayOfWeek("FRI").get)
+    )),
+    Set(new LocalDate(2016, 5, 16))
+    )
+
+  val ice856 = Train(
+    BavarianRegional(856),
+    ice856Schedule,
+    10.0
+  )
+
   val planner = new JourneyPlanner(Set(ice724, ice726))
+
+  val planner2 = new JourneyPlanner(Set(ice724, ice726, ice856))
 
   val hop = new Hop(munich, cologne, ice724)
 

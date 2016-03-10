@@ -1,5 +1,7 @@
 package com.typesafe.training.scalatrain
 
+import org.joda.time.LocalDate
+
 
 /**
   * Created by jonj on 2016-03-07.
@@ -59,8 +61,11 @@ class JourneyPlanner(trains: Set[Train]) {
     paths.toList.sortBy(_.cost)
   }
 
-
   def getHopsDepartingFromStationAtTime(from: Station, departureTime: Time): Set[Hop] = {
     hopMap(from).filter(_.departureTime >= departureTime)
+  }
+
+  def getTrainsRunningOn(date: LocalDate): Set[Train] = {
+    trains.filter(_.schedule.isTrainRunning(date))
   }
 }

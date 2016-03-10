@@ -48,6 +48,22 @@ class ScheduleSpec extends WordSpec with Matchers {
         )
         newScheduleFor724.isTrainRunning(new LocalDate(2016, 5, 16)) shouldEqual false
       }
+
+      "return false if train is not running on a day without exception, because Friday" in {
+        val newScheduleFor724: Schedule = Schedule(
+          Seq(
+            (Seq(
+              ice724MunichItem,
+              ice724FrankfurtItem,
+              ice724CologneItem,
+              ice724NurembergItem
+            ),
+              Set(DayOfWeek("MON").get, DayOfWeek("TUE").get, DayOfWeek("WED").get, DayOfWeek("THU").get)
+              )
+          )
+        )
+        newScheduleFor724.isTrainRunning(new LocalDate(2016, 5, 18)) shouldEqual true
+      }
     }
   }
 }

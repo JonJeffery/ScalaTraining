@@ -15,11 +15,11 @@ case object Sunday extends DayOfWeek
 object DayOfWeek {
   def apply(s: String): Option[DayOfWeek] = s.toUpperCase match {
     case "MON" | "MONDAY" => Some(Monday)
-    case "TUE" | "TUESDAY" => Some(Monday)
-    case "WED" | "WEDNESDAY" => Some(Monday)
-    case "THU" | "THURSDAY" => Some(Monday)
-    case "FRI" | "FRIDAY" => Some(Monday)
-    case "SAT" | "SATURDAY" => Some(Monday)
+    case "TUE" | "TUESDAY" => Some(Tuesday)
+    case "WED" | "WEDNESDAY" => Some(Wednesday)
+    case "THU" | "THURSDAY" => Some(Thursday)
+    case "FRI" | "FRIDAY" => Some(Friday)
+    case "SAT" | "SATURDAY" => Some(Saturday)
     case "SUN" | "SUNDAY" => Some(Sunday)
     case _ => None
   }
