@@ -13,12 +13,7 @@ case object Saturday extends DayOfWeek
 case object Sunday extends DayOfWeek
 
 object DayOfWeek {
-  def unapply(s: String): Option[DayOfWeek] = s.toUpperCase match {
-    //    case Int(x) => x match {
-    //      case 1 => Some(Sunday)
-    //      // ...
-    //      case _ => None
-    //    }
+  def apply(s: String): Option[DayOfWeek] = s.toUpperCase match {
     case "MON" | "MONDAY" => Some(Monday)
     case "TUE" | "TUESDAY" => Some(Monday)
     case "WED" | "WEDNESDAY" => Some(Monday)
@@ -29,9 +24,14 @@ object DayOfWeek {
     case _ => None
   }
 
-  def apply(s: String): DayOfWeek = s match {
-    case DayOfWeek(d) => d
-    case _ => throw new IllegalArgumentException(
-      "Invalid value for day of week: " + s)
+  def apply(i: Int): Option[DayOfWeek] = i match {
+    case 1 => Some(Monday)
+    case 2 => Some(Tuesday)
+    case 3 => Some(Wednesday)
+    case 4 => Some(Thursday)
+    case 5 => Some(Friday)
+    case 6 => Some(Saturday)
+    case 7 => Some(Sunday)
+    case _ => None
   }
 }
