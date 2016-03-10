@@ -32,11 +32,11 @@ class TrainSpec extends WordSpec with Matchers {
   "Creating a Train" should {
     "throw an IllegalArgumentException for a schedule with 0 or 1 elements" in {
       an[IAE] should be thrownBy Train(InterCityExpress(724), Schedule(Seq(
-        (Seq(), Set(DayOfWeek("WED")))
+        (Seq(), Set(DayOfWeek("WED").get))
       )))
 
       an[IAE] should be thrownBy Train(InterCityExpress(724), Schedule(Seq(
-        (Seq(ice724MunichItem), Set(DayOfWeek("WED")))
+        (Seq(ice724MunichItem), Set(DayOfWeek("WED").get))
       )))
     }
   }

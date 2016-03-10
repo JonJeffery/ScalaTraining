@@ -8,7 +8,8 @@ import org.joda.time.LocalDate
 /**
   * Created by jonj on 2016-03-09.
   */
-case class Schedule(scheduledTimes: Seq[((Seq[ScheduleItem]), Set[DayOfWeek])], exceptionDates: Set[LocalDate] = Set()) {
+case class Schedule(scheduledTimes: Seq[((Seq[ScheduleItem]), Set[DayOfWeek])],
+  exceptionDates: Set[LocalDate] = Set()) {
   val stations: Seq[Station] = scheduledTimes.flatMap(_._1).map(_.station)
   val daysOfWeek: Set[DayOfWeek] = scheduledTimes.flatMap(_._2).toSet
   val scheduleItems: Seq[ScheduleItem] = scheduledTimes.flatMap(_._1)

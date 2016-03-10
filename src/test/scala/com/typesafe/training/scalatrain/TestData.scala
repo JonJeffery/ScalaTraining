@@ -45,7 +45,7 @@ object TestData {
       ice724FrankfurtItem,
       ice724CologneItem
     ),
-      Set(DayOfWeek("MON"), DayOfWeek("TUE"), DayOfWeek("WED"), DayOfWeek("THU")
+      Set(DayOfWeek("MON").get, DayOfWeek("TUE").get, DayOfWeek("WED").get, DayOfWeek("THU").get
       ))))
 
   val ice724 = Train(
@@ -66,7 +66,7 @@ object TestData {
       ice726FrankfurtItem,
       ice726EssenItem
     ),
-      Set(DayOfWeek("WED"), DayOfWeek("FRI"), DayOfWeek("SAT"), DayOfWeek("SUN")))))
+      Set(DayOfWeek("WED").get, DayOfWeek("FRI").get, DayOfWeek("SAT").get, DayOfWeek("SUN").get))))
 
   val ice726 = Train(
     InterCityExpress(726),
