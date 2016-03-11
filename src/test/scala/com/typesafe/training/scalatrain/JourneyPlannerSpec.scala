@@ -125,4 +125,17 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
       planner.findTripsBetweenStationsOnDate(munich, frankfurt, new LocalDate(2016, 5, 23)) shouldEqual Set(Trip(Seq(hop_M_N_724, hop_N_F_724)))
     }
   }
+
+  "Calling findSinkStations" should {
+    "return a Set stations with no departures - essen, cologne" in {
+      planner.getSinkStations() shouldEqual Set(essen, cologne)
+    }
+  }
+
+  "Calling findSinkStations" should {
+    "return a Set stations with no departures - only cologne" in {
+      planner2.getSinkStations() shouldEqual Set(cologne)
+    }
+  }
+
 }

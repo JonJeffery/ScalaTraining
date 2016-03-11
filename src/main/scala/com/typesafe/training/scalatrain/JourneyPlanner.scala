@@ -91,5 +91,9 @@ class JourneyPlanner(trains: Set[Train]) {
     } yield path
   }
 
+  def getSinkStations(): Set[Station] = {
+    stations diff hopMap.keySet
+  }
+
 
 }

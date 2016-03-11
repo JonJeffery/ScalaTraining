@@ -84,7 +84,7 @@ object TestData {
     10.0
   )
 
-  val ice856EssenItem = ScheduleItem(ice856CologneTime -> cologne)
+  val ice856EssenItem = ScheduleItem(ice856CologneTime -> essen)
   val ice856NurembergItem = ScheduleItem(ice856NurembergTime -> nuremberg)
   val ice856MunichItem = ScheduleItem(ice856MunichTime -> munich)
   val ice856FrankfurtItem = ScheduleItem(ice856FrankfurtTime -> frankfurt)
